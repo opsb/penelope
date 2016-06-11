@@ -1,0 +1,2 @@
+defmodule Ermey do
+end
