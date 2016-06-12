@@ -10,23 +10,26 @@ defmodule Ermey.BotTest do
     end
   end
 
-  test "something" do
+  test "request review" do
+    payload = %{type: "message", text: "please review blah", channel: "#pr_reviews", user: "jon_id"}
     slack = %{
-      client: FakeWebsocketClient,
-      socket: nil,
+      users: %{
+        "jon_id": %{id: "jon_id", name: "jon", presence: "active"},
+        "opsb_id": %{id: "opsb_id", name: "opsb", presence: "active"}
+      },
       channels: %{
-        channel1: %{ id: "channel1", name: "channelx" }
-      }
+        "pr_reviews_id": %{id: "pr_reviews_id", name: "pr_reviews", is_channel: true}
+      },
+      socket: nil,
+      client: FakeWebsocketClient
     }
-    state_before = []
-    state_after = Bot.handle_message(%{type: "message", text: "hello", channel: "#channelx"}, slack, state_before)
-    Apex.ap Process.info(self, :message_queue_len)
+    state_before = %{}
 
-    assert state_after = ["blah"]
+    state_after = Bot.handle_message(payload, slack, state_before)
+
     assert_received {:socket, %{
-      "channel" => "channel1",
-      "text" => "Received 0 messages so far!",
-      "type" => "message"}
-    }
+      "channel" => "pr_reviews_id",
+      "text" => "@opsb kindly review that PR."
+    }}
   end
 end

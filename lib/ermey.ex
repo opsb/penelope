@@ -2,6 +2,7 @@ defmodule Ermey do
   use Application
 
   def start(_type, _args) do
+    IO.puts "starting up"
     import Supervisor.Spec, warn: false
 
     children = [

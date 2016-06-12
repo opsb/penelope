@@ -14,8 +14,24 @@ defmodule Ermey.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :slack, :faker],
-     mod: {Ermey, []}]
+    [applications: applications(Mix.env),
+     mod: mod(Mix.env)]
+  end
+
+  def applications(:test) do
+    [:logger, :faker]
+  end
+
+  def applications(_) do
+    [:logger, :slack]
+  end
+
+  def mod(:dev) do
+    {Ermey, []}
+  end
+
+  def mod(_) do
+    []
   end
 
   # Dependencies can be Hex packages:
