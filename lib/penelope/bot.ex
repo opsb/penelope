@@ -13,7 +13,7 @@ defmodule Penelope.Bot do
 
     send_message message_to_send, message.channel, slack
 
-    {:ok, state}
+    {:ok, %{previous_reviewer_id: reviewer.id}}
   end
 
   def handle_message(_message, _slack, state) do

@@ -31,5 +31,7 @@ defmodule Penelope.BotTest do
       "channel" => "pr_reviews_id",
       "text" => "@opsb kindly review that PR."
     }}
+
+    assert state_after = %{ previous_reviewer_id: "opsb_id" }
   end
 end
