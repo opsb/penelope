@@ -8,19 +8,7 @@ defmodule Penelope.Bot do
 
   def handle_message(message = %{type: "message"}, slack, state) do
     if Regex.match? ~r/review/, message.text do
-      reviewer = find_reviewer(message, slack, state)
-
-      if reviewer do
-        message_to_send = "@#{reviewer.name} kindly review that PR."
-        send_message message_to_send, message.channel, slack
-
-        {:ok, %{previous_reviewer_id: reviewer.id}}
-      else
-        message_to_send = "ahem, well this is embarrasing, there doesn't seem to be anyone available..."
-        send_message message_to_send, message.channel, slack
-
-        {:ok, state}
-      end
+      handle_review_request(message, slack, state)
     else
       {:ok, state}
     end
@@ -30,7 +18,23 @@ defmodule Penelope.Bot do
     {:ok, state}
   end
 
-  def find_reviewer(message, slack, state) do
+  defp handle_review_request(message, slack, state) do
+    reviewer = find_reviewer(message, slack, state)
+
+    if reviewer do
+      message_to_send = "@#{reviewer.name} kindly review that PR."
+      send_message message_to_send, message.channel, slack
+
+      {:ok, %{previous_reviewer_id: reviewer.id}}
+    else
+      message_to_send = "ahem, well this is embarrasing, there doesn't seem to be anyone available..."
+      send_message message_to_send, message.channel, slack
+
+      {:ok, state}
+    end
+  end
+
+  defp find_reviewer(message, slack, state) do
     reviewers = Penelope.SlackUtils.find_reviewers(message, slack, state)
     if Enum.empty?(reviewers) do
       nil
