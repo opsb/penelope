@@ -7,13 +7,16 @@ defmodule Penelope.Bot do
   end
 
   def handle_message(message = %{type: "message"}, slack, state) do
-    requester_id = message.user
-    reviewer = find_reviewer(slack, state, requester_id)
-    message_to_send = "@#{reviewer.name} kindly review that PR."
+    if Regex.match? ~r/review/, message.text do
+      requester_id = message.user
+      reviewer = find_reviewer(slack, state, requester_id)
+      message_to_send = "@#{reviewer.name} kindly review that PR."
+      send_message message_to_send, message.channel, slack
 
-    send_message message_to_send, message.channel, slack
-
-    {:ok, %{previous_reviewer_id: reviewer.id}}
+      {:ok, %{previous_reviewer_id: reviewer.id}}
+    else
+      {:ok, state}
+    end
   end
 
   def handle_message(_message, _slack, state) do
