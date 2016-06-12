@@ -14,8 +14,8 @@ defmodule Ermey.BotTest do
     payload = %{type: "message", text: "please review blah", channel: "#pr_reviews", user: "jon_id"}
     slack = %{
       users: %{
-        "jon_id": %{id: "jon_id", name: "jon", presence: "active"},
-        "opsb_id": %{id: "opsb_id", name: "opsb", presence: "active"}
+        "jon_id": %{id: "jon_id", name: "jon", presence: "active", is_bot: false},
+        "opsb_id": %{id: "opsb_id", name: "opsb", presence: "active", is_bot: false}
       },
       channels: %{
         "pr_reviews_id": %{id: "pr_reviews_id", name: "pr_reviews", is_channel: true}

@@ -1,5 +1,3 @@
-require IEx;
-
 defmodule Ermey.Bot do
   use Slack
 
@@ -10,7 +8,7 @@ defmodule Ermey.Bot do
 
   def handle_message(message = %{type: "message"}, slack, state) do
     requester_id = message.user
-    reviewer = find_reviewer(slack, requester_id)
+    reviewer = find_reviewer(slack, state, requester_id)
     message_to_send = "@#{reviewer.name} kindly review that PR."
 
     send_message message_to_send, message.channel, slack
@@ -22,12 +20,7 @@ defmodule Ermey.Bot do
     {:ok, state}
   end
 
-  defp find_reviewer(slack, requester_id) do
-    slack
-    |> Map.get(:users)
-    |> Map.values
-    |> Enum.find fn (user) ->
-      user.presence == "active" && user.id != requester_id
-    end
+  def find_reviewer(slack, state, requester_id) do
+    Ermey.SlackUtils.find_reviewers(slack, state, requester_id) |> Enum.random
   end
 end
