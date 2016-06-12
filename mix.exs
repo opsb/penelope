@@ -14,7 +14,7 @@ defmodule Ermey.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :slack],
+    [applications: [:logger, :slack, :faker],
      mod: {Ermey, []}]
   end
 
@@ -31,6 +31,7 @@ defmodule Ermey.Mixfile do
     [{:slack, "~> 0.5.0"},
      {:websocket_client, git: "https://github.com/jeremyong/websocket_client"},
      {:apex, "~> 0.5.0"},
-     {:poison, "~> 2.0"}]
+     {:poison, "~> 2.0"},
+     {:faker, git: "https://github.com/igas/faker", only: :test}]
   end
 end
