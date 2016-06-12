@@ -10,14 +10,19 @@ defmodule Penelope.SlackUtilsTest do
         "bob_id": %{id: "bob_id", name: "bob", presence: "active", is_bot: false},
         "away_id": %{id: "away_id", name: "away", presence: "away", is_bot: false},
         "mary_id": %{id: "mary_id", name: "mary", presence: "active", is_bot: false}
-      }
+      },
+      channels: %{
+        "channel1" => %{id: "channel1", members: ["opsb_id", "jon_id"]}
+      },
+      groups: %{}
     }
     state = %{previous_reviewer_id: "mary_id"}
-    requester_id = "jon_id"
+    message = %{user: "jon_id", channel: "channel1"}
 
-    reviewer_ids = Penelope.SlackUtils.find_reviewers(slack, state, requester_id) |> Enum.map(& &1[:id])
+    reviewer_ids = Penelope.SlackUtils.find_reviewers(message, slack, state) |> Enum.map(& &1[:id])
 
-    assert EnumUtils.all_members?(reviewer_ids, ["opsb_id", "bob_id"]), "should include active users"
+    assert Enum.member?(reviewer_ids, "opsb_id"), "should include active users"
+    assert !Enum.member?(reviewer_ids, "bob_id"), "should exclude users that are not members of message's channel"
     assert !Enum.member?(reviewer_ids, "mary_id"), "should exclude previous requester"
     assert !Enum.member?(reviewer_ids, "jon_id"), "should exclude requester"
     assert !Enum.member?(reviewer_ids, "hal_id"), "should exclude bots"
@@ -27,13 +32,17 @@ defmodule Penelope.SlackUtilsTest do
   test "find_reviewers when previous reviewer is only person available" do
     slack = %{
       users: %{
-        "mary_id": %{id: "mary_id", name: "mary", presence: "active", is_bot: false}
-      }
+        "mary_id" => %{id: "mary_id", name: "mary", presence: "active", is_bot: false}
+      },
+      channels: %{
+        "channel1" => %{id: "channel1", members: ["opsb_id", "jon_id", "mary_id"]}
+      },
+      groups: %{}
     }
     state = %{previous_reviewer_id: "mary_id"}
-    requester_id = "jon_id"
+    message = %{user: "jon_id", channel: "channel1"}
 
-    reviewer_ids = Penelope.SlackUtils.find_reviewers(slack, state, requester_id) |> Enum.map(& &1[:id])
+    reviewer_ids = Penelope.SlackUtils.find_reviewers(message, slack, state) |> Enum.map(& &1[:id])
 
     assert EnumUtils.all_members?(reviewer_ids, ["mary_id"]), "should include previous reviewer"
   end
