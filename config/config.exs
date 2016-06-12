@@ -10,11 +10,11 @@ use Mix.Config
 
 # You can configure for your application as:
 #
-#     config :ermey, key: :value
+#     config :penelope, key: :value
 #
 # And access this configuration in your application as:
 #
-#     Application.get_env(:ermey, :key)
+#     Application.get_env(:penelope, :key)
 #
 # Or configure a 3rd-party app:
 #

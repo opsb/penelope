@@ -1,7 +1,7 @@
-defmodule Ermey.BotTest do
+defmodule Penelope.BotTest do
   use ExUnit.Case
-  doctest Ermey
-  alias Ermey.Bot
+  doctest Penelope
+  alias Penelope.Bot
 
   defmodule FakeWebsocketClient do
     def send({:text, json}, _socket) do

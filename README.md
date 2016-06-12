@@ -1,4 +1,4 @@
-# Ermey
+# Penelope
 
 ## Usage
 

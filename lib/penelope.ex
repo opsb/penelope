@@ -1,4 +1,4 @@
-defmodule Ermey do
+defmodule Penelope do
   use Application
 
   def start(_type, _args) do
@@ -6,10 +6,10 @@ defmodule Ermey do
     import Supervisor.Spec, warn: false
 
     children = [
-      worker(Ermey.Bot, [slack_token, []])
+      worker(Penelope.Bot, [slack_token, []])
     ]
 
-    opts = [strategy: :one_for_one, name: Ermey.Supervisor]
+    opts = [strategy: :one_for_one, name: Penelope.Supervisor]
     Supervisor.start_link(children, opts)
   end
 

@@ -1,8 +1,8 @@
-defmodule Ermey.Mixfile do
+defmodule Penelope.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :ermey,
+    [app: :penelope,
      version: "0.0.1",
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
@@ -27,7 +27,7 @@ defmodule Ermey.Mixfile do
   end
 
   def mod(:dev) do
-    {Ermey, []}
+    {Penelope, []}
   end
 
   def mod(_) do

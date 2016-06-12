@@ -1,4 +1,4 @@
-defmodule Ermey.SlackUtils do
+defmodule Penelope.SlackUtils do
   def find_reviewers(slack, state, requester_id) do
     slack
     |> Map.get(:users)

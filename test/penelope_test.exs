@@ -1,6 +1,6 @@
-defmodule ErmeyTest do
+defmodule PenelopeTest do
   use ExUnit.Case
-  doctest Ermey
+  doctest Penelope
 
   test "the truth" do
     assert 1 + 1 == 2

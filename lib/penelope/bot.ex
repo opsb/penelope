@@ -1,4 +1,4 @@
-defmodule Ermey.Bot do
+defmodule Penelope.Bot do
   use Slack
 
   def handle_connect(slack, state) do
@@ -21,6 +21,6 @@ defmodule Ermey.Bot do
   end
 
   def find_reviewer(slack, state, requester_id) do
-    Ermey.SlackUtils.find_reviewers(slack, state, requester_id) |> Enum.random
+    Penelope.SlackUtils.find_reviewers(slack, state, requester_id) |> Enum.random
   end
 end

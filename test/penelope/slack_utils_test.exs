@@ -1,4 +1,4 @@
-defmodule Ermey.SlackUtilsTest do
+defmodule Penelope.SlackUtilsTest do
   use ExUnit.Case
 
   test "find_reviewers" do
@@ -14,7 +14,7 @@ defmodule Ermey.SlackUtilsTest do
     state = %{}
     requester_id = "jon_id"
 
-    reviewer_ids = Ermey.SlackUtils.find_reviewers(slack, state, requester_id) |> Enum.map(& &1[:id])
+    reviewer_ids = Penelope.SlackUtils.find_reviewers(slack, state, requester_id) |> Enum.map(& &1[:id])
 
     assert EnumUtils.all_members?(reviewer_ids, ["opsb_id", "bob_id"]), "should include all active users"
     assert !Enum.member?(reviewer_ids, "jon_id"), "should exclude requester"
