@@ -25,23 +25,22 @@ defmodule Penelope.BotTest do
     }
     state_before = %{}
 
-    state_after = Bot.handle_message(payload, slack, state_before)
+    {:ok, state_after} = Bot.handle_message(payload, slack, state_before)
 
     assert_received {:socket, %{
       "channel" => "pr_reviews_id",
       "text" => "@opsb kindly review that PR."
     }}
 
-    assert state_after = %{ previous_reviewer_id: "opsb_id" }
+    assert state_after == %{ previous_reviewer_id: "opsb_id" }
   end
 
   test "ignored message" do
     payload = %{type: "message", text: "please make some tea", channel: "#pr_reviews", user: "jon_id"}
     state_before = %{}
-    state_after = Bot.handle_message(payload, nil, state_before)
+    {:ok, state_after} = Bot.handle_message(payload, nil, state_before)
 
-    assert state_before = state_after, "state should remain unchanged"
-    IO.puts inspect(Process.info(self, :message_queue_len))
+    assert state_before == state_after, "state should remain unchanged"
     assert {:message_queue_len, 0} = Process.info(self, :message_queue_len), "no messages should have been sent"
   end
 end

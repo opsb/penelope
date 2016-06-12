@@ -1,4 +1,4 @@
-defmodule SlackUtils do
+defmodule SlackAnonymiser do
   def serialize(data) do
     data
     |> Map.drop([:client, :socket])
@@ -9,13 +9,15 @@ defmodule SlackUtils do
     data
     |> anonymise_users
     |> anonymise_me
+    |> anonymise_team
   end
 
   defp anonymise_users(data) do
     user_ids = data |> Map.get(:users) |> Map.keys
 
     List.foldl user_ids, data, fn (user_id, data) ->
-      data |> update_in [:users, user_id], &anonymise_user/1
+      data
+      |> update_in([:users, user_id], &anonymise_user/1)
     end
   end
 
