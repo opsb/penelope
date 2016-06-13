@@ -7,6 +7,7 @@ defmodule Penelope.Bot do
   end
 
   def handle_message(message = %{type: "message"}, slack, state) do
+    IO.puts inspect(message)
     if Regex.match? ~r/review/, message.text do
       handle_review_request(message, slack, state)
     else
