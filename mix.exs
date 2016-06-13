@@ -26,12 +26,12 @@ defmodule Penelope.Mixfile do
     [:logger, :slack]
   end
 
-  def mod(:dev) do
-    {Penelope, []}
+  def mod(:test) do
+    []
   end
 
   def mod(_) do
-    []
+    {Penelope, []}
   end
 
   # Dependencies can be Hex packages:
