@@ -6,14 +6,10 @@ defmodule Penelope do
     import Supervisor.Spec, warn: false
 
     children = [
-      worker(Penelope.Bot, [slack_token, []])
+      worker(Penelope.Bot, [Application.get_env(:penelope, :slack_token), []])
     ]
 
     opts = [strategy: :one_for_one, name: Penelope.Supervisor]
     Supervisor.start_link(children, opts)
-  end
-
-  defp slack_token do
-    System.get_env("SLACK_TOKEN") || raise ArgumentError, "SLACK_TOKEN env var must be set"
   end
 end
