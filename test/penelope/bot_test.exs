@@ -30,7 +30,7 @@ defmodule Penelope.BotTest do
 
     assert_received {:socket, %{
       "channel" => "pr_reviews_id",
-      "text" => "@opsb kindly review that PR."
+      "text" => "<@opsb> kindly review that PR."
     }}
 
     assert state_after == %{ previous_reviewer_id: "opsb_id" }

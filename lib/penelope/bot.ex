@@ -23,7 +23,7 @@ defmodule Penelope.Bot do
     reviewer = find_reviewer(message, slack, state)
 
     if reviewer do
-      message_to_send = "@#{reviewer.name} kindly review that PR."
+      message_to_send = "<@#{reviewer.name}> kindly review that PR."
       send_message message_to_send, message.channel, slack
 
       {:ok, %{previous_reviewer_id: reviewer.id}}
